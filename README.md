@@ -1,5 +1,7 @@
 # Compression-Project
-An implementation of a compression/decompression algorithm using [lz77](https://en.wikipedia.org/wiki/LZ77_and_LZ78) and [huffman coding](https://en.wikipedia.org/wiki/Huffman_coding).
+An implementation of a compression/decompression algorithm using [lz77](https://en.wikipedia.org/wiki/LZ77_and_LZ78) and [huffman coding](https://en.wikipedia.org/wiki/Huffman_coding).  
+
+The default settings for the lz77 compression is using a max offset of 2047 and a max match length of 31. These parameters can be altered manually in the program if wanted.
 
 ### How to run:
 
