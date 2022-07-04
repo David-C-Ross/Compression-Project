@@ -10,7 +10,7 @@ if __name__ == '__main__':
     # read the input file
     try:
         with open(input_file, 'r') as f:
-            data = f.read()
+            data = f.read().encode('ascii', 'ignore')
     except IOError:
         print('Could not open input file ...')
         raise
