@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 
 def compress(input_string, max_offset=2047, max_length=31):
     """Compress the input string into a list of length, offset, char values"""
@@ -139,9 +137,10 @@ def from_bytes(compressed_bytes, offset_bits=11, length_bits=5):
     while len(compressed_bytes) > 0:
         offset_length_value = 0
         for _ in range(offset_length_bytes):
-            offset_length_value = (offset_length_value * 256) + int(
-                compressed_bytes.pop(0)
-            )
+            if compressed_bytes:
+                offset_length_value = (offset_length_value * 256) + int(
+                    compressed_bytes.pop(0)
+                )
 
         offset = offset_length_value >> length_bits
         length = offset_length_value & ((2 ** length_bits) - 1)
@@ -150,7 +149,8 @@ def from_bytes(compressed_bytes, offset_bits=11, length_bits=5):
             char_out = None
         else:
             # Get the next character and convert to an ascii character
-            char_out = str(chr(compressed_bytes.pop(0)))
+            if compressed_bytes:
+                char_out = str(chr(compressed_bytes.pop(0)))
 
         output.append((offset, length, char_out))
 
