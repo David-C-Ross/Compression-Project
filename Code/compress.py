@@ -1,3 +1,4 @@
+import bwt
 import lz77
 import huffman
 from bitarray import bitarray
@@ -14,6 +15,7 @@ if __name__ == '__main__':
     except IOError:
         print('Could not open input file ...')
         raise
+    # data = bwt.bwt(str(data))
     lz77_encoded = lz77.compress(data)
     final_encoding, huff_tree = huffman.huffman_encoding(lz77_encoded)
     try:
