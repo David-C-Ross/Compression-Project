@@ -1,3 +1,4 @@
+import bwt
 import lz77
 import huffman
 from bitarray import bitarray
@@ -19,11 +20,12 @@ if __name__ == '__main__':
         raise
 
     decoded_huff = huffman.huffman_decoding(str(data).strip('bitarray')[2:-2], huff_dict)
-    lz77_decoded = lz77.decompress(bytearray(decoded_huff))
+    decoded = lz77.decompress(bytearray(decoded_huff))
+    # decoded = bwt.ibwt(decoded)
 
     try:
         with open(output_file, 'w') as f:
-            f.write(lz77_decoded)
+            f.write(decoded)
             print('File was decompressed successfully and saved to output path ...')
     except IOError:
         print('Could not write to output file ...')
