@@ -1,6 +1,5 @@
-
 def compress(input_string, max_offset=2047, max_length=31):
-    """Compress the input string into a list of length, offset, char values"""
+    """Compress the input string into a list of (length, offset, char) values"""
 
     # Create the input
     input_array = str(input_string[:])
@@ -17,7 +16,7 @@ def compress(input_string, max_offset=2047, max_length=31):
         window += input_array[:length]
         input_array = input_array[length:]
 
-    return to_bytes(output)
+    return output
 
 
 def to_bytes(compressed_representation, offset_bits=11, length_bits=5):
@@ -45,7 +44,7 @@ def to_bytes(compressed_representation, offset_bits=11, length_bits=5):
     return output
 
 
-def best_length_offset(window, input_string, max_length=15, max_offset=4095):
+def best_length_offset(window, input_string, max_length=31, max_offset=2047):
     """Take the window and an input string and return the offset and length
     with the biggest length of the input string as a substring"""
 
@@ -106,10 +105,9 @@ def repeating_length_from_start(window, input_string):
 def decompress(data):
     """Turn the list of (offset, length, char) into an output string"""
 
-    compressed = from_bytes(data)
     output = ""
 
-    for value in compressed:
+    for value in data:
         offset, length, char = value
 
         if length == 0:
@@ -149,10 +147,8 @@ def from_bytes(compressed_bytes, offset_bits=11, length_bits=5):
             char_out = None
         else:
             # Get the next character and convert to an ascii character
-            if compressed_bytes:
-                char_out = str(chr(compressed_bytes.pop(0)))
+            char_out = str(chr(compressed_bytes.pop(0)))
 
         output.append((offset, length, char_out))
 
     return output
-
