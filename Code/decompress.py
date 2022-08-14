@@ -3,12 +3,13 @@ import lz77
 import huffman
 from bitarray import bitarray
 
+
 if __name__ == '__main__':
 
     print('program usage : <input.txt> <output.txt>')
     input_file, output_file = input().split()
 
-    data = bitarray(endian='big')
+    data = bitarray()
 
     try:
         with open(input_file, 'rb') as f:
@@ -19,8 +20,8 @@ if __name__ == '__main__':
         print('Could not open input files ...')
         raise
 
-    decoded_huff = huffman.huffman_decoding(str(data).strip('bitarray')[2:-2], huff_dict)
-    decoded = lz77.decompress(bytearray(decoded_huff))
+    decoded_huff = huffman.huffman_decoding(data.to01(), huff_dict)
+    decoded = lz77.decompress(lz77.from_bytes(bytearray(decoded_huff)))
     # decoded = bwt.ibwt(decoded)
 
     try:
