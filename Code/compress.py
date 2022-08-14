@@ -10,20 +10,22 @@ if __name__ == '__main__':
 
     # read the input file
     try:
-        with open(input_file, 'r') as f:
-            data = f.read().encode('ascii', 'ignore')
+        with open(input_file, 'rb') as f:
+            data = f.read()
     except IOError:
         print('Could not open input file ...')
         raise
+
     # data = bwt.bwt(str(data))
-    lz77_encoded = lz77.compress(data)
-    final_encoding, huff_tree = huffman.huffman_encoding(lz77_encoded)
+    lz77_encoding = lz77.compress(data)
+    huff_encoding, huff_tree = huffman.huffman_encoding(lz77.to_bytes(lz77_encoding))
+
     try:
         with open(output_file, 'wb') as f:
-            f.write(bitarray(final_encoding).tobytes())
-            print('File was compressed successfully and saved to output path ...')
+            f.write(bitarray(huff_encoding))
         with open('huffman.txt', 'w') as f:
             f.write(str(huff_tree))
+        print('File was compressed successfully and saved to output path ...')
     except IOError:
         print('Could not write to output file ...')
         raise
